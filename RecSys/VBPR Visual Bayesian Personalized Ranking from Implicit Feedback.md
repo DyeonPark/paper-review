@@ -42,14 +42,14 @@ Keywords: Implicit Feedback, RecSys, Visual Feature
 
 ## 2.1 간단하게 살펴보는 모델 구조
 
-![Untitled](VBPR%20Visual%20Bayesian%20Personalized%20Ranking%20from%20ImpImplicit%20Feedback/Untitled.png)
+![Untitled](VBPR%20Visual%20Bayesian%20Personalized%20Ranking%20from%20Implicit%20Feedback/Untitled.png)
 
 1. 사전학습 된 CNN을 통해서 Visual Feature을 뽑아낸다 — cold start 문제 해결!
     - 어떤 CNN을 쓴건가요? — AlexNet
         - AlexNet을 사용
         - 마지막의 Fully Connected Layer의 반환 데이터를 Concat하게 이어서, 4096($F$)차원의 $f_i$ visual feature vector로 반환
         
-        ![Untitled](VBPR%20Visual%20Bayesian%20Personalized%20Ranking%20from%20ImpImplicit%20Feedback/Untitled%201.png)
+        ![Untitled](VBPR%20Visual%20Bayesian%20Personalized%20Ranking%20from%20Implicit%20Feedback/Untitled%201.png)
         
 2. 4096차원의 고차원 Visual Feature을 저차원 D차원의 Item Visual Factor로 임베딩한다
 3. Non-Visual F차원의 Item Latent Factor과 Item Visual Factor을 Concat하여 Item Factor로 생성
@@ -59,7 +59,7 @@ Keywords: Implicit Feedback, RecSys, Visual Feature
 
 ### 2.1.1. Notation
 
-![깔쌈하게 Notation 정리해주는 논문.. 최고의 논문..](VBPR%20Visual%20Bayesian%20Personalized%20Ranking%20from%20ImpImplicit%20Feedback/Untitled%202.png)
+![깔쌈하게 Notation 정리해주는 논문.. 최고의 논문..](VBPR%20Visual%20Bayesian%20Personalized%20Ranking%20from%20Implicit%20Feedback/Untitled%202.png)
 
 깔쌈하게 Notation 정리해주는 논문.. 최고의 논문..
 
@@ -70,7 +70,7 @@ Keywords: Implicit Feedback, RecSys, Visual Feature
     - 그리고 이에 각 유저들의 편향을 반영하기 위한 bias와 global offset을 더함
     - 하지만 이는 **cold start issue**가 있음 — 데이터가 적을 때 관계를 유추하기 어려워짐
 
-![Untitled](VBPR%20Visual%20Bayesian%20Personalized%20Ranking%20from%20ImpImplicit%20Feedback/Untitled%203.png)
+![Untitled](VBPR%20Visual%20Bayesian%20Personalized%20Ranking%20from%20Implicit%20Feedback/Untitled%203.png)
 
 1. **Cold start issue를 해결하기 위한 명시적 데이터 추가**
     - 명시적(Explicit) 데이터에 속하는 유저와 아이템의 **Visual Interaction 정보($\theta^T_u \theta_i$)를 추가**하여 cold start 이슈를 해결하였음!
@@ -80,7 +80,7 @@ Keywords: Implicit Feedback, RecSys, Visual Feature
     - $\theta^T_u$: 유저 u의 visual factor (D×1)
     - $\theta_i$: 아이템 i의 visual factor (D×1 = (D×F) (F×1)) —  CNN으로 뽑아낸 아이템 시각적 특징
 
-![Untitled](VBPR%20Visual%20Bayesian%20Personalized%20Ranking%20from%20ImpImplicit%20Feedback/Untitled%204.png)
+![Untitled](VBPR%20Visual%20Bayesian%20Personalized%20Ranking%20from%20Implicit%20Feedback/Untitled%204.png)
 
 1. **아이템 i의 visual factor의 차원을 임베딩**을 통해 낮추자!
     - 이 때 아이템 i의 visual factor인  $\theta_i$ 는 $Ef_i$ (Dx1)로 임베딩하여 차원을 낮출 수 있다!
@@ -88,7 +88,7 @@ Keywords: Implicit Feedback, RecSys, Visual Feature
         - $f_i$는 DeepCNN을 거쳐서 생성된 visual factor (F×1)
     - 여기에 아이템의 visual appearance에 대한 전반적인 유저의 의견 반영을 위해 편향을 곱해서 더해준다고 함!
 
-![Untitled](VBPR%20Visual%20Bayesian%20Personalized%20Ranking%20from%20ImpImplicit%20Feedback/Untitled%205.png)
+![Untitled](VBPR%20Visual%20Bayesian%20Personalized%20Ranking%20from%20Implicit%20Feedback/Untitled%205.png)
 
 ## 2.3 모델 학습은 어떻게 하나요? — BPR을 사용합니다!
 
@@ -102,7 +102,7 @@ Keywords: Implicit Feedback, RecSys, Visual Feature
 - $i$: (positive feedback) 유저가 긍정적 피드백을 준 아이템
 - $j$: (non-observed) 유저가 본 적 없는 아이템
 
-![Untitled](VBPR%20Visual%20Bayesian%20Personalized%20Ranking%20from%20ImpImplicit%20Feedback/Untitled%206.png)
+![Untitled](VBPR%20Visual%20Bayesian%20Personalized%20Ranking%20from%20Implicit%20Feedback/Untitled%206.png)
 
 - BPR 모델에서의 최적화 수식
     - $\hat x_{u,i,j} = \hat x_{u,i} - \hat x_{u,j}$
@@ -110,7 +110,7 @@ Keywords: Implicit Feedback, RecSys, Visual Feature
     - $\lambda_\theta$: Regularization Term
     - $\theta$ : $(u, i, j)$ 간의 상호작용을 파라미터화
 
-![BPR 모델의 최적화 수식과 가중치 업데이트 방법](VBPR%20Visual%20Bayesian%20Personalized%20Ranking%20from%20ImpImplicit%20Feedback/Untitled%207.png)
+![BPR 모델의 최적화 수식과 가중치 업데이트 방법](VBPR%20Visual%20Bayesian%20Personalized%20Ranking%20from%20Implicit%20Feedback/Untitled%207.png)
 
 BPR 모델의 최적화 수식과 가중치 업데이트 방법
 
@@ -119,12 +119,12 @@ BPR 모델의 최적화 수식과 가중치 업데이트 방법
 - BPR의 최적화 수식을 기반으로 VBPR에서는 아래와 같이 파라미터들을 업데이트 합니다!
 - 자세한 풀이 과정은 아래와 같습니다!
     
-    ![자세한 미분과정의 리뷰는 셀프.. 😉 ](VBPR%20Visual%20Bayesian%20Personalized%20Ranking%20from%20ImpImplicit%20Feedback/Untitled%208.png)
+    ![자세한 미분과정의 리뷰는 셀프.. 😉 ](VBPR%20Visual%20Bayesian%20Personalized%20Ranking%20from%20Implicit%20Feedback/Untitled%208.png)
     
     자세한 미분과정의 리뷰는 셀프.. 😉 
     
 
-![Untitled](VBPR%20Visual%20Bayesian%20Personalized%20Ranking%20from%20ImpImplicit%20Feedback/Untitled%209.png)
+![Untitled](VBPR%20Visual%20Bayesian%20Personalized%20Ranking%20from%20Implicit%20Feedback/Untitled%209.png)
 
 ## 2.4 Scalability 문제는 없나요?
 
@@ -137,7 +137,7 @@ $**= O(K+D)$**
 (F는 4096 고정 차원이라서 상수 취급해서 O(DxF) → O(D)로 표기하는 듯 함)
 - 그래도 **Linear한 정도**라서, 데이터가 추가되더라도 원래의 BPR에 비해서 시간과 메모리가 비약적으로 소모되지는 않음! → **문제 없다**는 뜻 🤪
 
-![Untitled](VBPR%20Visual%20Bayesian%20Personalized%20Ranking%20from%20ImpImplicit%20Feedback/Untitled%2010.png)
+![Untitled](VBPR%20Visual%20Bayesian%20Personalized%20Ranking%20from%20Implicit%20Feedback/Untitled%2010.png)
 
 # 3. Experiments
 
@@ -162,7 +162,7 @@ $**= O(K+D)$**
 - 앞서 언급한 Implicit feedback과 Visual features  $fi$ 로 부터 추출된 Dataset
 - $|I^{+}_{u}| < 5$ 인 user는 제외한다.
 
-![Untitled](VBPR%20Visual%20Bayesian%20Personalized%20Ranking%20from%20ImpImplicit%20Feedback/Untitled%2011.png)
+![Untitled](VBPR%20Visual%20Bayesian%20Personalized%20Ranking%20from%20Implicit%20Feedback/Untitled%2011.png)
 
 ## 3.2 **Visual Features**
 
@@ -177,7 +177,7 @@ $**= O(K+D)$**
 - 각 $user$로부터 랜덤하게 $item$를 선택하여 ${\nu}_{u}$(validation)와  $\tau_{u}$(testing)를 정하고 남은 모든 데이터는 $p_{u}$ (training)으로 사용한다.
 - 평가 지표로 **AUC**를 ****사용한다.
     
-    ![Untitled](VBPR%20Visual%20Bayesian%20Personalized%20Ranking%20from%20ImpImplicit%20Feedback/Untitled%2012.png)
+    ![Untitled](VBPR%20Visual%20Bayesian%20Personalized%20Ranking%20from%20Implicit%20Feedback/Untitled%2012.png)
     
     - $\delta(b)$ : 지시함수, $i$: observed, $j$: not-observed
     - $E(u) = \{(i,j)|(u,i)\in \tau_{u}\ \wedge(u,j)\notin(p_{u}\cup\nu_{u}\cup\tau_{u}) \}$
@@ -218,7 +218,7 @@ $**= O(K+D)$**
 
 ### **3.5.1 Result**
 
-![Untitled](VBPR%20Visual%20Bayesian%20Personalized%20Ranking%20from%20ImpImplicit%20Feedback/Untitled%2013.png)
+![Untitled](VBPR%20Visual%20Bayesian%20Personalized%20Ranking%20from%20Implicit%20Feedback/Untitled%2013.png)
 
 - $All\ Items$ : Full test set $\tau$
 - $Cold\ start$ : subset of $\tau$ which only consists of **items that had fewer than five positive feedback** instances in the training set.
@@ -262,19 +262,19 @@ $**= O(K+D)$**
 
 ### **3.5.2 Sensitivity**
 
-![Untitled](VBPR%20Visual%20Bayesian%20Personalized%20Ranking%20from%20ImpImplicit%20Feedback/Untitled%2014.png)
+![Untitled](VBPR%20Visual%20Bayesian%20Personalized%20Ranking%20from%20Implicit%20Feedback/Untitled%2014.png)
 
 ⇒ [ MM-MF, BPR-MF, VBPR ] : **factor의 수가 증가할수록 성능이 좋아지는** 것을 확인할 수 있고 이는 pair-wise method에서 overfitting을 피하는 능력을 보여준다.
 
 ### **3.5.3 Training Efficiency**
 
-![Untitled](VBPR%20Visual%20Bayesian%20Personalized%20Ranking%20from%20ImpImplicit%20Feedback/Untitled%2015.png)
+![Untitled](VBPR%20Visual%20Bayesian%20Personalized%20Ranking%20from%20Implicit%20Feedback/Untitled%2015.png)
 
 ⇒ VBPR이 [ MM-MF, BPR-MF ]과 비교해 최적의 training iterations 값으로 수렴하는데 더 오래 걸리지만 가장 큰 dataset에서 약 3.5시간정도 걸리므로 여전히 **효율적**이라고 볼 수 있다.
 
 ### **3.5.4 Visualizing Visual Space**
 
-![Untitled](VBPR%20Visual%20Bayesian%20Personalized%20Ranking%20from%20ImpImplicit%20Feedback/Untitled%2016.png)
+![Untitled](VBPR%20Visual%20Bayesian%20Personalized%20Ranking%20from%20Implicit%20Feedback/Untitled%2016.png)
 
 1. 다른 dataset에서 pre-train된 CNN모델에서 추출한 visual feature이지만, 임베딩을 사용하여 추출된 features의 표현력을 확인할 수 있는 다양한 subcategories에 대한 ‘visual’ transition(loosely)을 학습할 수 있다.
 2. VBPR은 hidden taxonomy학습을 돕고, 가장 관련성이 높은 underlying visual dimensions을 찾아 item과 user를 uncovered space으로 맵핑한다.
